@@ -1,1 +1,0 @@
- blender -b ../../data/Cube.blend -P ../../src/exporters/blender/export_mesh.py
