@@ -18,7 +18,7 @@ internal class Program
         Console.WriteLine($"Compiling Mesh: {name}");
         var mesh = JsonSerializer.Deserialize<Mesh>(File.ReadAllText($@"C:\arcane\arcane-data\meshes\{name}.json"))!;
 
-        using var stream = File.OpenWrite($@"C:\arcane\arcane-data\meshes\{name}.bin");
+        using var stream = File.Create($@"C:\arcane\arcane-data\meshes\{name}.bin");
         using var writer = new BinaryWriter(stream);
 
         writer.Write(mesh.Vertices.Count);
@@ -28,6 +28,9 @@ internal class Program
             writer.Write(v.X);
             writer.Write(v.Y);
             writer.Write(v.Z);
+            writer.Write(v.NormalX);
+            writer.Write(v.NormalY);
+            writer.Write(v.NormalZ);
             writer.Write(v.U);
             writer.Write(v.V);
         }
@@ -45,7 +48,7 @@ internal class Program
         Console.WriteLine($"Compiling Material: {name}");
         var material = JsonSerializer.Deserialize<Material>(File.ReadAllText($@"C:\arcane\arcane-data\materials\{name}.json"))!;
 
-        using var stream = File.OpenWrite($@"C:\arcane\arcane-data\materials\{name}.bin");
+        using var stream = File.Create($@"C:\arcane\arcane-data\materials\{name}.bin");
         using var writer = new BinaryWriter(stream);
 
         var bytes = Encoding.UTF8.GetBytes(material.Shaders.Vertex);

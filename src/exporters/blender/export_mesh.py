@@ -20,6 +20,7 @@ for tri in mesh.loop_triangles:
         loop_idx = tri.loops[i]
         
         v_co = mesh.vertices[v_idx].co
+        v_normal = mesh.loops[loop_idx].normal
         
         if uv_layer:
             uv = uv_layer[loop_idx].uv
@@ -27,7 +28,8 @@ for tri in mesh.loop_triangles:
         else:
             u, v = 0.0, 0.0
             
-        cache_key = (v_idx, round(u, 5), round(v, 5))
+        nx, ny, nz = round(v_normal.x, 5), round(v_normal.z, 5), round(v_normal.y, 5)
+        cache_key = (v_idx, round(u, 5), round(v, 5), nx, ny, nz)
         
         if cache_key not in vertex_cache:
             new_idx = len(vertices)
@@ -37,7 +39,10 @@ for tri in mesh.loop_triangles:
                 "y": v_co.z,
                 "z": v_co.y,
                 "u": u,
-                "v": 1.0 - v
+                "v": 1.0 - v,
+                "nx": v_normal.x,
+                "ny": v_normal.z,
+                "nz": v_normal.y
             })
         else:
             new_idx = vertex_cache[cache_key]
