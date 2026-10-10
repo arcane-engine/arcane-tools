@@ -10,6 +10,7 @@ internal class Program
     public static void Main(string[] _)
     {
         CompileMesh("Cube");
+        CompileMesh("Grid");
         CompileMaterial("Default");
     }
 
@@ -22,20 +23,35 @@ internal class Program
         using var writer = new BinaryWriter(stream);
 
         writer.Write(mesh.Vertices.Count);
+        if (mesh.Vertices[0].TextureCoordinate1 is { })
+        {
+            writer.Write(4 * 10);
+        }
+        else
+        {
+            writer.Write(4 * 8);
+        }
+        writer.Write(mesh.Indices.Count);
 
         foreach (var v in mesh.Vertices)
         {
-            writer.Write(v.X);
-            writer.Write(v.Y);
-            writer.Write(v.Z);
-            writer.Write(v.NormalX);
-            writer.Write(v.NormalY);
-            writer.Write(v.NormalZ);
-            writer.Write(v.U);
-            writer.Write(v.V);
+            writer.Write(v.Position.X);
+            writer.Write(v.Position.Y);
+            writer.Write(v.Position.Z);
+            writer.Write(v.Normal.X);
+            writer.Write(v.Normal.Y);
+            writer.Write(v.Normal.Z);
+            if (v.TextureCoordinate0 is { } uv0)
+            {
+                writer.Write(uv0.U);
+                writer.Write(uv0.V);
+            }
+            if (v.TextureCoordinate1 is { } uv1)
+            {
+                writer.Write(uv1.U);
+                writer.Write(uv1.V);
+            }
         }
-
-        writer.Write(mesh.Indices.Count);
 
         foreach (var index in mesh.Indices)
         {

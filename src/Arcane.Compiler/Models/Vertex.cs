@@ -2,7 +2,7 @@
 
 namespace Arcane.Compiler.Models;
 
-internal class Vertex
+internal struct Position
 {
     [JsonPropertyName("x")]
     public float X { get; init; }
@@ -12,19 +12,39 @@ internal class Vertex
 
     [JsonPropertyName("z")]
     public float Z { get; init; }
+}
 
-    [JsonPropertyName("nx")]
-    public float NormalX { get; init; }
-
-    [JsonPropertyName("ny")]
-    public float NormalY { get; init; }
-
-    [JsonPropertyName("nz")]
-    public float NormalZ { get; init; }
-
+internal struct TextureCoordinate
+{
     [JsonPropertyName("u")]
     public float U { get; init; }
-
     [JsonPropertyName("v")]
     public float V { get; init; }
+}
+
+internal struct Normal
+{
+    [JsonPropertyName("x")]
+    public float X { get; init; }
+
+    [JsonPropertyName("y")]
+    public float Y { get; init; }
+
+    [JsonPropertyName("z")]
+    public float Z { get; init; }
+}
+
+internal class Vertex
+{
+    [JsonPropertyName("position")]
+    public Position Position { get; init; }
+
+    [JsonPropertyName("uv0")]
+    public TextureCoordinate? TextureCoordinate0 { get; init; }
+
+    [JsonPropertyName("uv1")]
+    public TextureCoordinate? TextureCoordinate1 { get; init; }
+
+    [JsonPropertyName("normal")]
+    public Normal Normal { get; init; }
 }
